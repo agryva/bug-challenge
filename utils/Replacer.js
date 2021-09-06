@@ -8,6 +8,7 @@ const tags = [
         open_tag: /^\{\{/,
         close_tag: /\}\}$/,
         resolver: function(data) {
+            console.log(data)
             return (tag) => _.get(data, tag_cleaner(tag, this.open_tag, this.close_tag))
         }
     }
@@ -25,6 +26,8 @@ const replace = (text, source_data = {}) => {
     tags.forEach(ftag => {
         new_text = new_text.replace(ftag.tag, ftag.resolver(source_data))
     })
+
+    new_text = new_text.replace(/"/gi, '\\"')
 
     return new_text
 }
